@@ -41,6 +41,7 @@ Our CCTV motion detection with canvas clipping (Night)
 ![Interface](https://github.com/wilwad/cctv-motion-canvas-clip-region/blob/master/ui/4.png)
 
 ```
-This code uses a Node socket.io and rtsp library that I have heavily modified for my own uses: I have not included it here.
+This code uses my own modified version of Diffcam and socket.io / rtsp library 
+I have not included that code here.
 This post is basically to show how to use canvas clipping with motion detection
 ```
