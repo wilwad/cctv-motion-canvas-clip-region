@@ -23,7 +23,8 @@ The clipped canvas passed to Diffcam
 
 ![Interface](https://github.com/wilwad/cctv-motion-canvas-clip-region/blob/master/ui/0.png)
 
-Let us overlay the clipping points over the motion canvas
+DiffCam will do its thing and give us a motion box as usual.
+We will draw the bounding box over our CCTV canvas and also overlay the clipping points over it.
 
 ![Interface](https://github.com/wilwad/cctv-motion-canvas-clip-region/blob/master/ui/diffcam.png)
 
@@ -39,4 +40,7 @@ Our CCTV motion detection with canvas clipping (Night)
 
 ![Interface](https://github.com/wilwad/cctv-motion-canvas-clip-region/blob/master/ui/4.png)
 
-
+```
+This code uses a Node socket.io and rtsp library that I have heavily modified for my own uses: I have not included it here.
+This post is basically to show how to use canvas clipping with motion detection
+```
