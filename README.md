@@ -1,6 +1,12 @@
 # cctv-motion-canvas-clip-region
 Using canvas region clipping with diffcam to detect motion.
 
+```
+This code uses my own modified version of Diffcam and socket.io / rtsp library 
+I have not included that code here.
+This post is merely to show how to use canvas clipping with motion detection
+```
+
 Going beyond rectangles for motion detection using Diffcam (https://github.com/lonekorean/diff-cam-engine)
 
 My original motion detection was limited to boxes
@@ -39,9 +45,3 @@ Our CCTV motion detection with canvas clipping (Day)
 Our CCTV motion detection with canvas clipping (Night)
 
 ![Interface](https://github.com/wilwad/cctv-motion-canvas-clip-region/blob/master/ui/4.png)
-
-```
-This code uses my own modified version of Diffcam and socket.io / rtsp library 
-I have not included that code here.
-This post is basically to show how to use canvas clipping with motion detection
-```
