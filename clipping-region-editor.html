@@ -20,7 +20,7 @@
 	 <div id='controls'></div>
 	 <script src='points.js'></script>
 	 <script>
-		let cctv_image = "110.png"
+		let cctv_image = "109.png"
 
 		window.onload = function(){
 			let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -39,8 +39,9 @@
 
 			let type = 'range'
 			let Index = cctv_image.split('.')[0]
+			let cam = points[Index]
 
-			for(let idx=0; idx < points[Index].length; idx++){
+			for(let idx=0; idx < cam.length; idx++){
 				let point = points[Index][idx];
 				let ctl0 = document.createElement('input')
 				let ctl1 = document.createElement('input')
@@ -86,12 +87,10 @@
 					let p = {x: kids[1].value, y: kids[2].value}
 
 					if (idx == 0){
-						//console.log(idx, '*', 'moveTo', p.x, p.y)
 						ctx.moveTo(p.x, p.y);
 						ctxClipper.moveTo(p.x, p.y);
 						ctx.fillText( '*', p.x, p.y)
 					} else {
-						//console.log(idx, alphabet.charAt(idx-1), 'lineTo', p.x, p.y)
 						ctx.lineTo(p.x, p.y)
 						ctxClipper.lineTo(p.x, p.y)
 						ctx.fillText( alphabet.charAt(idx-1), p.x, p.y)
@@ -114,7 +113,7 @@
 				ctxClipper.drawImage(img, 0, 0);	
 			}
 
-			document.querySelectorAll('input[type=range]').forEach((el,idx)=>{
+			document.querySelectorAll(`input[type="${type}"]`).forEach((el,idx)=>{
 				el.addEventListener('change', function(){
 						let title = (this.getAttribute('id').indexOf('-x') ? 'X value' : 'Y value ') + ` (${this.value})`
 						this.setAttribute('title', title)
