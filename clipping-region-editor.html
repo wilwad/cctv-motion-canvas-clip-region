@@ -5,22 +5,41 @@
 		<meta charset="utf-8"/>
 		<style>
 			#img {display: none;}
-			#canvas { position:absolute; z-index:2; background: #00ff6563;}
+			#canvas { position:absolute; z-index:2; background: #ffffff66;}
 			#canvas0 { position: relative; z-index:1}
+			#clipper { background: red}
 		</style>
 	</head>
 	<body>
+     <div id='links'></div>
 	 <img id="img"/>
 	 <div style='height:352px'>
-		<canvas id="canvas">Upgrade your Browser</canvas>	     
-	    <canvas id="canvas0">Upgrade your Browser</canvas>	 	
+		<canvas id="canvas">Upgrade your Browser punk</canvas>	     
+	    <canvas id="canvas0">Upgrade your Browser punk</canvas>	 	
      </div>
-	 <canvas id='clipper' style='background: yellow'></canvas>
+	 <canvas id='clipper'>Upgrade your Browser punk</canvas>
 	 <p></p>
+	 <h4>Dynamically loaded from file</h4>
 	 <div id='controls'></div>
 	 <script src='points.js'></script>
 	 <script>
-		let cctv_image = "109.png"
+		var links = ["109", "110","111", "onvif1a"]
+		var cctv_image = `${links[0]}.png`
+		var ip_cam = window.location.search.trim()
+		if (ip_cam.length){
+			let t = ip_cam.replace('?','') + '.png'
+			cctv_image = t;
+		}
+
+		var l = document.getElementById('links')
+		var temp = "";
+		for(let idx = 0; idx < links.length; idx++){
+			let ip = links[idx]
+			let color = cctv_image.indexOf(ip) ? '#000' : 'red';
+			temp += `<a href="?${ip}" style="color:${color}">Cam${ip}</a> `
+		}
+		l.innerHTML = temp;
+		temp = "";
 
 		window.onload = function(){
 			let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -30,9 +49,9 @@
 			var ctxClipper = clipper.getContext('2d')
 
 			var ctx = canvas.getContext('2d');	
-				ctx.globalCompositeOperation='source-over'; // destination-out, ctx.globalAlpha=0.3;
 				ctx.font = '11pt Helvetica'
 				ctx.save()
+
 			var canvas0 = document.getElementById('canvas0');
 			var ctx0 = canvas0.getContext('2d')
 			var img = document.getElementById("img");
@@ -77,49 +96,57 @@
 				console.log('clipImage')
 
 				ctx.restore()				
+				ctxClipper.restore()
 				ctx.clearRect(0,0, canvas.width, canvas.height)
+				ctxClipper.clearRect(0,0, canvas.width, canvas.height)
 				ctx.fillStyle = 'red'
 				ctx.strokeStyle = 'red' //'#FFF'				
 				ctx.beginPath()
+				ctxClipper.beginPath()
 
-				document.querySelectorAll('div.host').forEach((el,idx)=>{
-					let kids = el.childNodes
+				let els = document.querySelectorAll('div.host');
+
+				for (let idx = 0; idx < els.length; idx++){
+					let kids = els[idx].childNodes
 					let p = {x: kids[1].value, y: kids[2].value}
 
 					if (idx == 0){
 						ctx.moveTo(p.x, p.y);
-						ctxClipper.moveTo(p.x, p.y);
 						ctx.fillText( '*', p.x, p.y)
-					} else {
-						ctx.lineTo(p.x, p.y)
-						ctxClipper.lineTo(p.x, p.y)
-						ctx.fillText( alphabet.charAt(idx-1), p.x, p.y)
-					}
-				})
-		
-				/*
-				// when u need to save your changes
-				points = [];
+						ctxClipper.moveTo(p.x, p.y);						
 
-				document.querySelectorAll('div.host').forEach((el,idx)=>{
-					let kids = el.childNodes
-					let p = {x: kids[1].value, y: kids[2].value}
-					console.log(`{x:${p.x}, y: ${p.y}},`)
-				})
-				*/
+					} else {
+
+						ctx.lineTo(p.x, p.y)
+						ctx.fillText( alphabet.charAt(idx-1), p.x, p.y)
+						ctxClipper.lineTo(p.x, p.y)
+					}
+				}
+		
 				ctx.closePath()
-				ctx.stroke()		
+				ctx.stroke()
+				ctx.save()
+
 				ctxClipper.clip()		
 				ctxClipper.drawImage(img, 0, 0);	
+				ctxClipper.save()
+				/*
+				// when u need to save your changes
+
+				let els = document.querySelectorAll('div.host')
+				let max = els.length
+				for(let idx=0; idx < max; idx++){
+					let kids = els[idx].childNodes
+					let p = {x: kids[1].value, y: kids[2].value}
+					console.log(`{x:${p.x}, y: ${p.y}},`)
+				}
+				*/
 			}
 
-			document.querySelectorAll(`input[type="${type}"]`).forEach((el,idx)=>{
-				el.addEventListener('change', function(){
-						let title = (this.getAttribute('id').indexOf('-x') ? 'X value' : 'Y value ') + ` (${this.value})`
-						this.setAttribute('title', title)
-						clipImage()
-				}, false)
-			})
+			var els = document.querySelectorAll(`input[type="${type}"]`);
+			for (let idx = 0; idx < els.length; idx++){
+				els[idx].addEventListener('change', clipImage, false)
+			}
 
 			img.onload = function(){
 				canvas.width = this.width
